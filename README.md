@@ -15,7 +15,7 @@ This project has received funding from the *European Research Council (ERC)* und
 
 # Contributing Authors
 1. [Dr. Venkatraman Renganathan - Lund University](https://github.com/venkatramanrenganathan)
-2. [Joshua Pilipovsky - Georgia Institute of Technology](https://github.com/venkatramanrenganathan)
+2. [Joshua Pilipovsky - Georgia Institute of Technology](https://github.com/JoshPilipovsky)
 3. [Dr. Panagiotis Tsoitras - Georgia Institute of Technology](https://dcsl.gatech.edu/tsiotras.html)
 
 # Affiliation

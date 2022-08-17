@@ -1,0 +1,17 @@
+x = linspace(-1,0);
+y = x;
+z = x;
+figure; 
+plot3(x,y+.05,z,'k','LineWidth',2); hold on; grid on;
+plot3(-x,y+.05,z,'k','LineWidth',2);
+plot3(x,y+.05,-z,'k','LineWidth',2);
+plot3(-x,y+.05,-z,'k','LineWidth',2);
+plot3(1*ones(1,100),-.95*ones(1,100),linspace(-1,1),'k','LineWidth',2);
+plot3(-1*ones(1,100),-.95*ones(1,100),linspace(-1,1),'k','LineWidth',2);
+plot3(linspace(-1,1),-.95*ones(1,100),-1*ones(1,100),'k','LineWidth',2);
+plot3(linspace(-1,1),-.95*ones(1,100),1*ones(1,100),'k','LineWidth',2);
+plot3(x,y+.05,zeros(1,100),'b','LineWidth',2);
+plot3(-x,y+.05,zeros(1,100),'b','LineWidth',2);
+plot3(linspace(-1,1),-.95*ones(1,100),zeros(1,100),'b','LineWidth',2);
+plot3(0,0,0,'.r','MarkerSize',20);
+xlabel('x'); ylabel('y'); zlabel('z');

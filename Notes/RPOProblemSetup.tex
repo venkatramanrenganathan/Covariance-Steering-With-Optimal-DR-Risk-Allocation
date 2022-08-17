@@ -1,0 +1,145 @@
+\documentclass[12pt]{article}
+\usepackage{setspace}
+\doublespacing
+\usepackage[utf8]{inputenc}
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+\usepackage{amssymb}
+\usepackage{amsmath} %math package, for things like align%
+\usepackage{graphicx}
+\graphicspath{{../Figures/}}
+\usepackage{listings}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage[mathscr]{euscript}
+\usepackage{indentfirst}
+\usepackage[bottom]{footmisc}
+\usepackage{wrapfig}
+\usepackage[framed, numbered]{matlab-prettifier}
+\usepackage{subcaption}
+\usepackage{dsfont}
+\usepackage{braket}
+\renewcommand{\arraystretch}{.8}
+\usepackage{multirow}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in]{geometry}
+\usepackage[labelsep=period]{caption}
+\captionsetup[table]{name=Table}
+\renewcommand{\thetable}{\Roman{table}}
+\newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
+\usepackage[numbered,framed]{matlab-prettifier} % For MATLAB code
+\lstset{
+	style              = Matlab-editor,
+	basicstyle         = \mlttfamily,
+	escapechar         = ",
+	mlshowsectionrules = true,
+}
+
+\usepackage{titlesec}
+% from the titlesec package
+%\titleformat{ command }
+%             [ shape ]
+%             { format }{ label }{ sep }{ before-code }[ after-code ]
+% \section*
+
+ \captionsetup[table]{
+	labelsep = newline,
+	name = Table, 
+	justification=justified,
+	singlelinecheck=false,%%%%%%% a single line is centered by default
+	labelsep=colon,%%%%%%
+	skip = \medskipamount}
+\begin{document}
+	
+%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Problem Setup}
+Continuous time CWH Equations:
+\begin{align*}
+\ddot{x} &= 3\omega^2 x + 2\omega \dot{y} + u_1\\
+\ddot{y} &= -2\omega \dot{x} + u_2,
+\end{align*}
+where $\omega \coloneqq \sqrt{\mu/R_0^3}$. For a spacecraft in LEO, I used $R_0 = R_e + 415$ km as the orbital radius, where $R_e = 6378.1$ km is the radius of the Earth. To write this system in state space form, let $x \coloneqq [x,\dot{x},y,\dot{y}]^\intercal\in\mathbb{R}^4$, so that we have the LTI system $\dot{x} = Ax + Bu$, where 
+\begin{equation*}
+A = 
+\begin{bmatrix}
+0 & 1 & 0 & 0\\
+3\omega^2 & 0 & 2\omega & 0\\
+0 & 0 & 0 & 1\\
+0 & -2\omega & 0 & 0
+\end{bmatrix}, \qquad
+B = 
+\begin{bmatrix}
+0 & 0\\
+1 & 0\\
+0 & 0\\
+0 & 1
+\end{bmatrix}
+\end{equation*}
+To discretize the system, let $N = 20$ time steps with a time step $\Delta t = 0.5$, so that $T = N\Delta t = 10$. Assume a zero-order holder (ZOH) on the control and first order approximation, i.e. $A_d = I_4 + \Delta t A$ and $B_d = \Delta t B$. Adding noise to the system gives $x_{k+1} = A_d x_{k} + B_d u_k + G w_k$, where 
+\begin{equation*}
+A_d = 
+\begin{bmatrix}
+1 & \Delta t & 0 & 0\\
+3\Delta t\omega^2 & 1 & 2\Delta t\omega & 0\\
+0 & 0 & 1 & 1\\
+0 & -2\Delta t\omega & 0 & 1
+\end{bmatrix}, \qquad
+B_d = 
+\begin{bmatrix}
+0 & 0\\
+\Delta t & 0\\
+0 & 0\\
+0 & \Delta t
+\end{bmatrix}, \qquad 
+G = \text{diag}(10^{-4},10^{-4},5\cdot 10^{-8},5\cdot 10^{-8})
+\end{equation*}
+Boundary Conditions:
+\begin{align*}
+x_0 = 
+\begin{bmatrix}
+-1.5\\
+-1.5\\
+0.1\\
+0.1
+\end{bmatrix},\
+x_f = 
+\begin{bmatrix}
+0\\
+0\\
+0\\
+0
+\end{bmatrix},\
+\Sigma_0 = 10^{-2}\cdot\text{diag}(0.1,0.1,0.01,0.01),\ \Sigma_f = 0.5\Sigma_0
+\end{align*}
+The chance constraints are formulated as $\mathcal{X} = \bigcap_{j=1}^{2}\{x:\alpha_j^\intercal x \leq \beta_j\}$, where 
+\begin{equation*}
+\alpha_1 = 
+\begin{bmatrix}
+1\\
+-1\\
+0\\
+0
+\end{bmatrix},\
+\alpha_2 = 
+\begin{bmatrix}
+1\\
+1\\
+0\\
+0
+\end{bmatrix},\
+\beta_1 = \beta_2 = 0.5
+\end{equation*}
+This corresponds to a constraint space of a triangle, given by the intersection of $x - y \leq 0.5$ and $x + y \leq 0.5$. Lastly, the cost is 
+\begin{equation*}
+J = \sum_{k=0}^{N-1} x_k^\intercal Q x_k + u_k^\intercal R u_k,
+\end{equation*}
+where 
+\begin{equation*}
+Q = \text{diag}(10,10,1,1),\ R = \text{diag}(10^3,10^3)
+\end{equation*}
+This is the end \cite{b1}.
+
+\bibliography{test} 
+\bibliographystyle{IEEEtran}
+%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

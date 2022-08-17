@@ -1,0 +1,160 @@
+\documentclass[12pt]{article}
+\usepackage{setspace}
+\doublespacing
+\usepackage[utf8]{inputenc}
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{graphicx}
+\graphicspath{{../Figures/}}
+\usepackage{listings}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage[mathscr]{euscript}
+\usepackage{indentfirst}
+\usepackage[bottom]{footmisc}
+\usepackage{wrapfig}
+\usepackage[framed, numbered]{matlab-prettifier}
+\usepackage{subcaption}
+\usepackage{dsfont}
+\usepackage{braket}
+\renewcommand{\arraystretch}{.8}
+\usepackage{multirow}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in]{geometry}
+\usepackage[labelsep=period]{caption}
+\captionsetup[table]{name=Table}
+\renewcommand{\thetable}{\Roman{table}}
+\newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
+
+\newtheorem{prop}{Proposition}
+\newtheorem{lem}{Lemma}
+
+\begin{document}
+	
+%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Convex Cone Chance Constraints - Using Geometry!}
+We are interested in approximating the chance constraints
+\begin{equation}
+\mathbb{P}(x_k^2 + y_k^2 \leq \gamma^2 y_k^2) \geq 1 - \delta_k.
+\end{equation}
+Intuition: We can think of the three dimensional cone constraints as two dimensional constraints at each time step. 
+What this means is that at each time step $k$, the two dimensional state $\xi_k := [x_k, z_k]^\intercal$ must lie in the \textit{circle} $r_k = \gamma y_k$ with probability greater than $1 - \delta_k$. 
+However, since $y_k$ is uncertain, so is the radius of the circle, therefore a first approximation is relaxing this to the \textit{mean} of $y_k$, i.e. let the radius of the circle be $\bar{r}_k = \gamma \bar{y}_k$, which is the same approximation I did in the paper for the two-sided constraints.
+
+Letting $x_k^2 + z_k^2 = AE_k X = \xi_k$, where $A := \text{blkdiag}(1,0,1,0,0,0)$, we get the following expression for the chance constraint
+\begin{equation}\label{eq:2}
+\mathbb{P}(\|\xi_k\|_2 \leq \bar{r}_k) \geq 1 - \delta_k
+\end{equation}
+Note that the random variable $\xi_k = AE_k X$ is a Gaussian random vector such that $\xi_k \sim \mathcal{N}(\bar{\xi}_k,\Sigma_{\xi_k})$, where the mean $\bar{\xi}_k := AE_k\bar{X}$ and covariance $\Sigma_{\xi_k} := AE_k\Sigma_XE_k^\intercal A^\intercal$. 
+Next, we change coordinates to a random variable with zero mean. To do this, let $\eta_k := \xi_k - \bar{\xi}_k$, so that $\eta_k \sim \mathcal{N}(0,\Sigma_{\xi_k})$, since the covariances are the same. 
+From the triangle inequality we have
+\begin{equation}
+\|\xi_k\|_2 = \|\eta_k + \bar{\xi}_k\|_2 \leq \|\eta_k\|_2 + \|\bar{\xi}_k\|_2,
+\end{equation}
+therefore if the expression $\mathbb{P}(\|\eta_k\|_2 \leq \bar{r}_k - \|\bar{\xi}_k\|_2) \geq 1 - \delta_k$ holds, then (\ref{eq:2}) must surely hold as well.
+Letting $\bar{R}_k := \bar{r}_k - \|\bar{\xi}_k\|_2 = \gamma\bar{y}_k - AE_k\bar{X}$, we get the following 
+\begin{equation}\label{eq:4}
+\mathbb{P}(\|\eta_k\|_2 \leq \bar{R}_k) \geq 1 - \delta_k.
+\end{equation}
+To summarize: So far, we have turned the convex cone chance constraint into a chance constraint that requires the probability that a zero-mean Gaussian random vector is inside a circle to be greater than $1 - \delta_k$. 
+This problem can be analytically solved, in both two and three dimensions! 
+I present here the two dimensional version because it is pertinent to this problem, but the three dimensional version arises when dealing with control (thrust) chance constraints for cases like powered descent guidance.
+\begin{prop}
+	Let $\zeta\in\mathbb{R}^2$ be a zero-mean Gaussian random vector with covariance $\Sigma_{\zeta}$. Then for any $a\in\mathbb{R}$, the following inequality holds
+	\begin{equation}\label{eq:5}
+	\mathbb{P}\big(\zeta^\intercal \Sigma_{\zeta}^{-1}\zeta \leq a^2\big) \geq 1 - e^{-\frac{1}{2}a^2}.
+	\end{equation}
+\end{prop}
+
+\begin{proof}
+	The probability density function (PDF) of $\zeta$ is given by
+	\begin{equation}
+	N(0,\Sigma_{\zeta}) = \frac{1}{2\pi|\det\Sigma_{\zeta}|^{\frac{1}{2}}}e^{-\frac{1}{2}\zeta^\intercal\Sigma_{\zeta}^{-1}\zeta}.
+	\end{equation}
+	Then, the probability in (\ref{eq:5}) is given explicitly by
+	\begin{equation}\label{eq:7}
+	\mathbb{P}(\zeta^\intercal\Sigma_{\zeta}^{-1}\zeta \leq a^2) = \frac{1}{2\pi|\det\Sigma_{\zeta}|^{\frac{1}{2}}}\int_{\Omega_{\zeta}} e^{-\frac{1}{2}\zeta^\intercal\Sigma_{\zeta}^{-1}\zeta} \ d\zeta,
+	\end{equation}
+	where $\Omega_{\zeta} := \{\zeta: \zeta^\intercal \Sigma_{\zeta}^{-1} \zeta \leq a^2\}$.
+	Physically, this corresponds to integrating over an \textit{ellipsoidal} area in 2D, where the ellipse is characterized by the matrix $\Sigma_{\zeta}^{-1}$. However, it is not easy to integrate over ellipsoidal regions, but circular regions are much easier to work with. Change coordinates such that $\nu := \Sigma_{\zeta}^{-\frac{1}{2}}\zeta$ so that the Jacobian is $d\nu = |\det \Sigma_{\zeta}|^{-\frac{1}{2}} \ d\zeta$ and the integral in (\ref{eq:7}) becomes
+	\begin{equation}
+	\mathbb{P}(\zeta^\intercal\Sigma_{\zeta}^{-1}\zeta \leq a^2) = \mathbb{P}(\|\nu\|_2 \leq a) = \frac{1}{2\pi} \int_{\Omega_{\nu}}e^{-\frac{1}{2}\nu^\intercal \nu} \ d\nu,
+	\end{equation}
+	where $\Omega_x := \{\nu: \|\nu\|_2 \leq a\}$, i.e. a circle with radius $a$. This integral is straightforward to evaluate in two dimensions. Changing to polar coordinates, suppose $\nu = [\nu_1, \nu_2]^\intercal$ and decompose as $\nu_1 = \rho \cos\phi$ and $\nu_2 = \rho \sin\phi$. This gives the integral
+	\begin{equation}\label{eq:9}
+	\mathbb{P}(\|\nu\|_2 \leq a) = \frac{1}{2\pi}\int_{0}^{2\pi}\int_{0}^{a}e^{-\frac{1}{2}\rho^2} \ rdrd\phi = 1 - e^{-\frac{1}{2}a^2}.
+	\end{equation}
+\end{proof}
+
+\begin{prop}
+	The probability that the norm of a zero-mean random variable $\zeta\in\mathbb{R}^2$ with covariance $\Sigma_{\zeta}$ is in a $\delta$-ball satisfies the inequality
+	\begin{equation}
+	\mathbb{P}(\|\zeta\|_2 \leq \delta) \geq 1 - e^{-\delta^2/2\sigma_{\zeta}^2},
+	\end{equation}
+	where $\sigma_{\zeta} := \lambda_{\mathrm{max}}(\Sigma_{\zeta})$ is the maximum singular value of the matrix $\Sigma_{\zeta}$.
+\end{prop}
+
+\begin{proof}
+	Using \ref{eq:5}, we wish to find the radius $\delta$ of a circle that contains the ellipse $\{\zeta:\zeta^\intercal\Sigma_{\zeta}^{-1}\zeta \leq a^2\}$. 
+	To do so, diagonalize the covariance matrix as $\Sigma_{\zeta} = PDP^\intercal$ where $D$ is a diagonal matrix of the eigenvalues of $\Sigma_{\zeta}$ and $P$ is an orthogonal matrix.
+	Since $\sigma_{\zeta}^2 = \max_i\lambda_i \leq \lambda_i$, it follows that 
+	\begin{equation}
+	D^{-1} = \frac{1}{\sigma_{\zeta}^2}\text{diag}(\sigma_{\zeta}^2 / \lambda_i) \geq \frac{1}{\sigma_{\zeta}^2}I.
+	\end{equation}
+	From the previous expression, it follows that 
+	\begin{equation}
+	\zeta^\intercal \Sigma_{\zeta}^{-1} \zeta = \zeta^\intercal P D^{-1} P^\intercal \zeta \geq \frac{1}{\sigma_{\zeta}^2}\zeta^\intercal P P^\intercal \zeta = \frac{1}{\sigma_{\zeta}^2}\|\zeta\|_2^2 \leq a^2.
+	\end{equation}
+	Letting $\delta := a\sigma_{\zeta}$, we get $\|\zeta\|_2 \leq \delta$. Therefore, $\{\zeta: \zeta^\intercal \Sigma_{\zeta}^{-1}\zeta \leq a^2\} \subset \{\zeta: \|\zeta\|_2 \leq \delta\}$, which implies $\mathbb{P}(\zeta^\intercal \Sigma_{\zeta}^{-1}\zeta \leq a^2) \leq \mathbb{P}(\|\zeta\|_2 \leq \delta)$. The result then follows from (\ref{eq:5}) with $a^2 = \delta^2/\sigma_{\zeta}^2$.
+\end{proof}
+
+Equipped with these propositions, we can now simplify (\ref{eq:4}) as 
+\begin{equation}
+\mathbb{P}(\|\eta_k\|_2 \leq \bar{R}_k) \geq 1 - e^{-\bar{R}_k^2/2\sigma_{\eta_k}^2} \geq 1 - \delta_k, 
+\end{equation}
+and simplifying the above expression gives 
+\begin{equation}\label{eq:14}
+\sqrt{2\log\bigg(\frac{1}{\delta_k}\bigg)}\sigma_{\eta_k} \leq \bar{R}_k.
+\end{equation}
+Lastly, we get rid of the singular value term in (\ref{eq:14}) for a more explicit formula in terms of the matrix $\Sigma_{\eta} = \Sigma_{\xi}$ from before. Note that $\sigma_{\eta_k}^2 = \lambda_{\mathrm{max}}(\Sigma_{\xi}) = \lambda_{\mathrm{max}}(AE_k\Sigma_XE_k^\intercal A^\intercal)$. Also note that by definition, the induced two-norm of a matrix $B$ is $\|B\|_2 := \sqrt{\lambda_{\mathrm{max}}(B^\intercal B)}$. Therefore, using $\Sigma_X = (I + \mathcal{B}K)\Sigma_Y(I + \mathcal{B}K)^\intercal$, we get 
+\begin{equation}
+\sigma_{\eta_k}^2 = \lambda_{\mathrm{max}}(AE_k\Sigma_XE_k^\intercal A^\intercal) = \|\Sigma_Y^{1/2}(I + \mathcal{B}K)^\intercal E_k^\intercal A^\intercal\|_2^2.
+\end{equation}
+In total, then, the convex cone chance constraints become 
+\begin{equation}\label{eq:16}
+\boxed{\sqrt{2\log\bigg(\frac{1}{\delta_k}\bigg)}\|\Sigma_Y^{1/2}(I + \mathcal{B}K)^\intercal E_k^\intercal A^\intercal\|_2 \leq \bar{R}_k, \quad \forall k = 1,\ldots,N}
+\end{equation}
+
+%\begin{lem}
+%	The induced norm of a square matrix $A\in\mathbb{R}^{n\times n}$ can be written as 
+%	\begin{equation}
+%	\|A\|^2 = \lambda_{\mathrm{max}}(A^\intercal A).
+%	\end{equation}
+%\end{lem}
+%
+%\begin{proof}
+%	By definition, the induced norm of a matrix is 
+%	\begin{equation}
+%	\|A\| := \max_{\|x\| = 1} \|Ax\|.
+%	\end{equation}
+%	This implies 
+%	\begin{equation}
+%	\|A\|^2 = \max_{\|x\| = 1} \|Ax\|^2 = \max_{\|x\| = 1} x^\intercal (A^\intercal A) x = \lambda.
+%	\end{equation}
+%\end{proof}
+
+\section*{Results}
+With the above discussion in mind, I applied everything I have so far. The following plots show the following constraints and techniques:
+\begin{enumerate}
+	\item \textit{Convex cone chance constraints} using (\ref{eq:16}) as the convex relaxation.
+	\item \textit{Iterative Risk Allocation} using (\ref{eq:16}) and $\sum_{k} \delta_k \leq \Delta$.
+	\item \textit{Input hard constraints} on the control to $\|u_k\|_{\infty} \leq 0.1 \ \textrm{km/s}^2$.
+	\item  $L_1/L_2$ \textit{regularized cost} $J = \gamma \|V\|_1 + J_{\mu}^{L_2} + J_{\Sigma}^{L_2}$, where 
+	\begin{equation*}
+	J_{\mu}^{L_2} := \bar{X}^\intercal Q \bar{X} + V^\intercal R V, \quad J_{\Sigma}^{L_2} := \textrm{tr}\big[( (I+\mathcal{B}K)^\intercal Q (I+\mathcal{B}K) + K^\intercal R K) \Sigma_Y\big],
+	\end{equation*}
+	and $\gamma = 100$ in this example. I have the theory behind why this works in another write-up, I believe I've sent it to you before.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

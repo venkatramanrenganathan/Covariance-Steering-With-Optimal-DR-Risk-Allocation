@@ -1,0 +1,20 @@
+    % Plot State Space
+    x = linspace(-1.25,0);
+    y = x;
+    z = x;
+    figure;
+    plot3(x,y+.05,z,'k','LineWidth',2); hold on; grid on;
+    plot3(-x,y+.05,z,'k','LineWidth',2);
+    plot3(x,y+.05,-z,'k','LineWidth',2);
+    plot3(-x,y+.05,-z,'k','LineWidth',2);
+    plot3(1.25*ones(1,100),-1.2*ones(1,100),linspace(-1.25,1.25),'k','LineWidth',2);
+    plot3(-1.25*ones(1,100),-1.2*ones(1,100),linspace(-1.25,1.25),'k','LineWidth',2);
+    plot3(linspace(-1.25,1.25),-1.2*ones(1,100),-1.25*ones(1,100),'k','LineWidth',2);
+    plot3(linspace(-1.25,1.25),-1.2*ones(1,100),1.25*ones(1,100),'k','LineWidth',2);
+    plot3(x,y+.05,zeros(1,100),'--b','LineWidth',0.5);
+    plot3(-x,y+.05,zeros(1,100),'--b','LineWidth',0.5);
+    plot3(linspace(-1.25,1.25),-1.2*ones(1,100),zeros(1,100),'--b','LineWidth',0.5);
+    plot3(0,0,0,'.r','MarkerSize',20);
+    xlabel('$x$ (km)','Interpreter','latex'); 
+    ylabel('$y$ (km)','Interpreter','latex'); 
+    zlabel('$z$ (km)','Interpreter','latex');

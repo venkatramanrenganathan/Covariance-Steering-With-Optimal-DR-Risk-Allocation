@@ -1,4 +1,4 @@
-function [bool,diff] = isActive(V,K,PS)
+function [bool,diff] = isActive(V,K,PS, riskSelectFlag)
     eps = 1E-06;
     Ns = PS.Ns;
     N = PS.N;
@@ -23,7 +23,13 @@ function [bool,diff] = isActive(V,K,PS)
     for k = 1:N
         Ek = [zeros(nx,k*nx) eye(nx) zeros(nx,(N-k)*nx)];
         for j = 1:Ns
-            ICDF = norminv(1-deltax(j,k));
+            if(riskSelectFlag == 1)
+                % Gaussian Case
+                ICDF = norminv(1-deltax(j,k));
+            elseif(riskSelectFlag == 2)
+                % DR Case
+                ICDF = sqrt((1-deltax(j,k))/(deltax(j,k)));
+            end
             diff(j,k) = b_x(j) - (a_x(:,j)'*Ek*EX + ICDF*norm(S'*IplusBK'*Ek'*a_x(:,j)));
             if  diff(j,k) < eps
                 bool(j,k) = true;

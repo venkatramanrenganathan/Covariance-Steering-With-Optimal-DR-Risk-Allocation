@@ -5,6 +5,7 @@
 % (C) Venkatraman Renganathan, Automatic Control LTH, Lund University 2022,
 % (C) Joshua Pilipovsky, DCSL, Georgia Tech 2022,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % make a fresh start
 close all; clear all; clc;
 
@@ -14,7 +15,7 @@ dynamicsSelectFlag = 1; % 1 for 3D spacecraft, 2 for Double Integrator
 
 % Set Horizon and load the data
 if (dynamicsSelectFlag == 1)
-    N = 15; 
+    N = 10; 
     PS = loadProblemSetup3D(N);
 elseif (dynamicsSelectFlag == 2)
     N = 20; 
@@ -30,8 +31,13 @@ figNum = 1;
 figure(figNum); 
 grid on;
 plot(JstarVec,'.--k','MarkerSize',15);
-xlabel('Iteration Number','FontSize',12);
-ylabel('Optimal Cost','FontSize',12);
+xlabel('Iteration Number');
+ylabel('Optimal Cost');
+a = findobj(gcf, 'type', 'axes');
+h = findobj(gcf, 'type', 'line');
+set(h, 'linewidth', 4);
+set(a, 'linewidth', 4);
+set(a, 'FontSize', 40);
 
 % Calculate true deltas after IRA
 Ns = PS.Ns;
@@ -79,6 +85,7 @@ PostProcess3D(figNum,100,Vstar,Kstar,PS,1);
 
 figNum = figNum + 3; % Because PostProcess3D produces 3 figures
 PostProcess3D(7,100,Vstar,Kstar,PS,0);
+
 xlim([-0.2 0.2]); 
 ylim([-0.2 0.1]); 
 zlim([-0.2 0.2]);

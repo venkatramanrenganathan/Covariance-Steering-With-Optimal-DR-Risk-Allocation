@@ -41,9 +41,9 @@ function [PS,Vsol,Ksol,JstarVec,niter] = IterativeRiskAllocation(PS,eps, dynamic
         % legend('Lower Constraint','Upper Constraint');
 
         Nactive = sum(sum(bool));
-        if Nactive == 0 || Nactive == PS.N * PS.Ns
-            break
-        end
+%         if Nactive == 0 || Nactive == PS.N * PS.Ns
+%             break
+%         end
 
         % Tighten INACTIVE constraints
         PS = tightenConstraints(PS,alpha,Vsol,Ksol,bool, riskSelectFlag);

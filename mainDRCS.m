@@ -3,7 +3,9 @@
 % robust state risk constraints. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % (C) Venkatraman Renganathan, Automatic Control LTH, Lund University 2022.
+% (C) Joshua Pilipovsky, DCSL, Georgia Tech 2022,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % make a fresh start
 close all; clear all; clc;
 

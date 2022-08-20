@@ -5,7 +5,7 @@
 close all; clear all; clc;
 
 % make a vector of risk parameters
-deltas = 0.01:0.01:0.99;
+deltas = 0.001:0.001:0.50;
 
 % Infer the length of deltas vector
 numDeltas = size(deltas,2);

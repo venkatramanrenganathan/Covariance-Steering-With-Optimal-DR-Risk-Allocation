@@ -14,7 +14,7 @@ This repository contains the MATLAB code for simulating covariance steering for 
     * Set `riskSelectFlag = 1` in line `13` for running simulations with Gaussian chance constraints
     * Set `riskSelectFlag = 2` in line `13` for running simulations with Distributionally Robust risk constraints 
     * Set `dynamicsSelectFlag = 1` in line `14` for running simulations with 3D spacecraft dynamics
-    * Set  `dynamicsSelectFlag = 2` in line `14` for running simulations with Double Integrator dynamics
+    * Set `dynamicsSelectFlag = 2` in line `14` for running simulations with Double Integrator dynamics
 
 # Funding Acknowledgement
 This project has received funding from the *European Research Council (ERC)* under the European Union’s Horizon 2020 research and innovation program under grant agreement No `834142 - Scalable Control`.

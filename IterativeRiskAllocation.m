@@ -6,9 +6,11 @@ function [PS,Vsol,Ksol,JstarVec,niter] = IterativeRiskAllocation(PS,eps, dynamic
     JstarVec = [];
     
     %%% BEGIN IRA LOOP %%%
-    while abs(Jprev - Jstar) > eps
+    while (abs(Jprev - Jstar) > eps)
         alpha = 0.7 * 0.98 ^ niter; % Constraint tightening constant
         Jprev = Jstar;
+        
+        fprintf('Risk Allocation Iteration No: %d \n', niter+1);
 
         % Solve Lower Stage Covariance Steering with DR Risk/ Chance Constraints
         if(riskSelectFlag == 1)
@@ -41,9 +43,9 @@ function [PS,Vsol,Ksol,JstarVec,niter] = IterativeRiskAllocation(PS,eps, dynamic
         % legend('Lower Constraint','Upper Constraint');
 
         Nactive = sum(sum(bool));
-%         if Nactive == 0 || Nactive == PS.N * PS.Ns
-%             break
-%         end
+        if Nactive == 0 || Nactive == PS.N * PS.Ns
+            break
+        end
 
         % Tighten INACTIVE constraints
         PS = tightenConstraints(PS,alpha,Vsol,Ksol,bool, riskSelectFlag);

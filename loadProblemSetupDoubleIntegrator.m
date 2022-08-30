@@ -7,11 +7,11 @@
 function PS = loadProblemSetupDoubleIntegrator(N)
     PS.N = N;
     % Initial condition 
-    PS.mu0 = [-10; 1; 0; 0];
+    PS.mu0 = [-10; 1; 0; 0]; % [-10; 1; 0; 0];
     PS.Sigma0 = diag([0.1,0.1,0.01,0.01]); 
     % Terminal Condition
     PS.muf = [0;0;0;0];
-    PS.Sigmaf = 0.75*PS.Sigma0; 
+    PS.Sigmaf = 0.5*PS.Sigma0; % 0.75*PS.Sigma0; 
     % Linear System
     dt = 0.2; 
     PS.dt = dt;
@@ -20,9 +20,10 @@ function PS = loadProblemSetupDoubleIntegrator(N)
     PS.Ns = 2;
     PS.alphax = [0.2 -1 0 0;
                  0.2 1  0 0]';
+    PS.alphax = PS.alphax;         
     PS.stateCC_offset = 0.2; % meters
     PS.betax = PS.stateCC_offset * ones(4,1);
-    failProb = 0.0005;
+    failProb = 0.10; % 0.0005;
     PS.Deltax = failProb; % 0.03; % JOINT probability of failure 
     % Control Chance Constraints
     PS.Nc = 6;
@@ -34,7 +35,7 @@ function PS = loadProblemSetupDoubleIntegrator(N)
                  0 0 -1]';
     PS.umax = 30; % Newtons
     PS.betau = PS.umax * ones(PS.Nc,1);
-    PS.Deltau = 0.20; 
+    PS.Deltau = failProb; % 0.20; 
     % Initialize with uniform risk allocation
     PS = assignRisk(PS);
     % Objective function  
@@ -56,7 +57,7 @@ function PS = defineDynamics(PS, dt)
     PS.nx = size(PS.A, 1);
     PS.nu = size(PS.B, 2);
     PS.nw = PS.nx;
-    PS.D  = 0.01*eye(PS.nx);
+    PS.D  = 0.001*eye(PS.nx);
 end
 
 function PS = assignRisk(PS)

@@ -81,13 +81,18 @@ function PostProcess_ConeConstraints_New(fignum,MCnum,V,K,PS)
        x_MC(:,1) = x0_MC;
        y_MC(:,1) = x0_MC - mu0;
        
+       % Create disturbance history
+       wMean = zeros(nw, 1);
+       wCov  = eye(nw);
+       wData = mvlaprnd(nw,wMean,wCov,N);
+       
        % Apply dynamics and store history
        for k = 1:N
            % Compute optimal control at time tk
            U(:,k) =  V((k-1)*nu+1:k*nu) + K((k-1)*nu+1:k*nu,(k-1)*nx+1:k*nx) * y_MC(:,k);
            
            % Propagate dynamics to time tk
-           w = randn(nw,1);
+           w = wData(:,k); % randn(nw,1);
            x_MC(:,k+1) = A * x_MC(:,k) + B * U(:,k) + D * w;
            y_MC(:,k+1) = A * y_MC(:,k) + D * w;
        end       

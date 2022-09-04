@@ -74,9 +74,12 @@
        y_MC = zeros(nx,N+1);
        x_MC(:,1) = x0_MC;
        y_MC(:,1) = x0_MC - mu0;
+       wMean = zeros(nw, 1);
+       wCov  = eye(nw);
+       wData = mvlaprnd(nw,wMean,wCov,N);
        for k = 1:N
            U(:,k,mc) =  V((k-1)*nu+1:k*nu) + K((k-1)*nu+1:k*nu,(k-1)*nx+1:k*nx) * y_MC(:,k);
-           w = randn(nw,1);
+           w = wData(:, k); % randn(nw,1);
            x_MC(:,k+1) = A * x_MC(:,k) + B * U(:,k,mc) + D * w;
            y_MC(:,k+1) = A * y_MC(:,k) + D * w;
        end       

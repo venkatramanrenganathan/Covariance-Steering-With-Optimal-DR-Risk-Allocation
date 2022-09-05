@@ -10,7 +10,7 @@
 close all; clear all; clc;
 
 % Select the required flags
-riskSelectFlag = 2; % 1 for Gaussian chance constraint, 2 for DR Risk Constraint
+riskSelectFlag = 1; % 1 for Gaussian chance constraint, 2 for DR Risk Constraint
 dynamicsSelectFlag = 1; % 1 for 3D spacecraft, 2 for Double Integrator 
 
 % Set Horizon and load the data

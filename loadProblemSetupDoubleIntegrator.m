@@ -1,7 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This function returns the problem setup (PS) given the length of the
-% horizon N.
-% (c) 2020 Joshua Pilipovsky, DCSL
+% horizon N for a double integrator system
+% (C) 2022 Venkatraman Renganathan
+%          Department of Automatic Control - LTH
+%          Lund University, Sweden
+%          Email: venkatraman.renganathan@control.lth.se
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function PS = loadProblemSetupDoubleIntegrator(N)
@@ -11,7 +14,7 @@ function PS = loadProblemSetupDoubleIntegrator(N)
     PS.Sigma0 = diag([0.1,0.1,0.01,0.01]); 
     % Terminal Condition
     PS.muf = [0;0;0;0];
-    PS.Sigmaf = 0.5*PS.Sigma0; % 0.75*PS.Sigma0; 
+    PS.Sigmaf = 0.25*PS.Sigma0; % 0.75*PS.Sigma0; 
     % Linear System
     dt = 0.2; 
     PS.dt = dt;

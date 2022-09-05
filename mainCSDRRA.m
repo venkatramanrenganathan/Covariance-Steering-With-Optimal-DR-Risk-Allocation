@@ -67,8 +67,10 @@ subplot(1,2,1); hold on; grid on;
 plot(PS.dt * [1:PS.N],PS.deltax(2,:),'.k','MarkerSize',20);
 if (dynamicsSelectFlag == 1)
     plot(PS.dt * [1:PS.N],PS.deltax(3,:),'ob','MarkerSize',10,'LineWidth',1);
+    legend({'$\delta_r$','$\delta_u$'},'Interpreter','latex','FontSize',20);
+elseif(dynamicsSelectFlag == 2)
+    legend({'$\delta_r$'},'Interpreter','latex','FontSize',20);
 end
-legend({'$\delta_r$','$\delta_u$'},'Interpreter','latex','FontSize',20);
 xlabel('Time (s)','Interpreter','latex','FontSize',15);
 ylabel('Allocated Risk','FontSize',15);
 set(gca,'FontSize',15);
@@ -76,13 +78,20 @@ subplot(1,2,2); hold on; grid on;
 plot(PS.dt * [1:PS.N],PS.deltabar(2,:),'.k','MarkerSize',20);
 if (dynamicsSelectFlag == 1)
     plot(PS.dt * [1:PS.N],PS.deltabar(3,:),'ob','MarkerSize',10,'LineWidth',1);
+    legend({'$\bar{\delta}_r$','$\bar{\delta}_u$'},'Interpreter','latex','FontSize',20);
+elseif(dynamicsSelectFlag == 2)
+    legend({'$\bar{\delta}_r$'},'Interpreter','latex','FontSize',20);
 end
-legend({'$\bar{\delta}_r$','$\bar{\delta}_u$'},'Interpreter','latex','FontSize',20);
 xlabel('Time (s)','Interpreter','latex','FontSize',15);
 ylabel('True Risk','FontSize',15);
 set(gca,'FontSize',15);
+a = findobj(gcf, 'type', 'axes');
+h = findobj(gcf, 'type', 'line');
+set(h, 'linewidth', 4);
+set(a, 'linewidth', 4);
+set(a, 'FontSize', 40);
 
-
+% Perform Monte-Carlo in Post Processing
 if (dynamicsSelectFlag == 1)
     figNum = figNum + 1;
     PostProcess(figNum,100,Vstar,Kstar,PS);
@@ -96,6 +105,7 @@ if (dynamicsSelectFlag == 1)
     xlim([-0.2 0.2]); 
     ylim([-0.2 0.1]); 
     zlim([-0.2 0.2]);
+    
 elseif (dynamicsSelectFlag == 2)
     figNum = figNum + 1;
     PostProcessDoubleIntegrator(figNum,100,Vstar,Kstar,PS);

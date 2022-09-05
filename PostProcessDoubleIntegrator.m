@@ -14,6 +14,7 @@ function PostProcessDoubleIntegrator(fignum,MCnum,V,K,PS)
     
     grey = [0.8 0.8 0.8];
     darkgrey = [0.6 0.6 0.6];
+    orange = [0.850 0.325 0.098];
     
     EX = PS.ScriptA*PS.mu0 + PS.ScriptB*V;
     
@@ -37,7 +38,12 @@ function PostProcessDoubleIntegrator(fignum,MCnum,V,K,PS)
        end       
        
        figure(fignum); hold on;
-       plot(x_MC(1,:),x_MC(2,:),'color',grey); 
+       plot(x_MC(1,:),x_MC(2,:),'color',orange); 
+       a = findobj(gcf, 'type', 'axes');
+       h = findobj(gcf, 'type', 'line');
+       set(h, 'linewidth', 4);
+       set(a, 'linewidth', 4);
+       set(a, 'FontSize', 40);
        hold off;
     end
     nominal = value(EX);
@@ -70,12 +76,17 @@ function PostProcessDoubleIntegrator(fignum,MCnum,V,K,PS)
     end
     
     xl = linspace(-20,0);
-    plot(xl, 0.2*(-xl + PS.stateCC_offset), '--k','LineWidth',1);
-    plot(xl, 0.2*(xl + PS.stateCC_offset), '--k','LineWidth',1);
+    plot(xl, 0.2*(-xl + PS.stateCC_offset), '-b','LineWidth',1);
+    plot(xl, 0.2*(xl + PS.stateCC_offset), '-b','LineWidth',1);
     ineqplot('y > -0.2*x-0.2',[-20 10 -10 10],darkgrey);
     ineqplot('y < -0.2*x+0.2',[-20 10 -10 10],darkgrey);
     xlabel('$x$ (m)','Interpreter','latex','FontSize',15);
     ylabel('$y$ (m)','Interpreter','latex','FontSize',15);
     grid on;
+    a = findobj(gcf, 'type', 'axes');
+    h = findobj(gcf, 'type', 'line');
+    set(h, 'linewidth', 4);
+    set(a, 'linewidth', 4);
+    set(a, 'FontSize', 40);
     hold off;
 end

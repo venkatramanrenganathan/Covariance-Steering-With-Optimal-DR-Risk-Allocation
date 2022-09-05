@@ -3,9 +3,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % (c) Kazuhide Okamoto, DCSL, 2019
 % (C) Joshua Pilipovsky, DCSL, 2020
+% (C) Venkatraman Renganathan, Lund University, 2022
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [time,obj,Vsol,Ksol,fsol] = SolveCovarianceSteering_ConeConstraints_RUB(PS)   
+function [time,obj,Vsol,Ksol,fsol] = SolveCovarianceSteering_ConeConstraints_RUB(PS, dynamicsSelectFlag, riskSelectFlag)   
     % % % Lower Stage Optimization % % %
     
     N = PS.N;
@@ -47,9 +48,13 @@ function [time,obj,Vsol,Ksol,fsol] = SolveCovarianceSteering_ConeConstraints_RUB
     Constraints = [Constraints, EN * EX == muf];      
     Constraints = [Constraints, [Sigmaf Z; Z' eye((N+1)*nx)] >= 0];
     
-    % Chance Constraints
-    Constraints = chanceConstraints(Constraints,EX,S,IplusBK,V,K,f,PS); 
-    
+    if(riskSelectFlag == 1)
+        % Gaussian Chance Constraints
+        Constraints = chanceConstraints(Constraints,EX,S,IplusBK,V,K,f,PS, dynamicsSelectFlag); 
+    elseif(riskSelectFlag == 2)
+        % Gaussian Chance Constraints
+        Constraints = DRRiskConstraints(Constraints,EX,S,IplusBK,V,K,f,PS, dynamicsSelectFlag); 
+    end
     % Objective Function
     Jmean = EX' * Q * EX + V' * R * V;
     Jcov = trace((IplusBK' * Q * IplusBK + K' * R * K) * SigmaY);
@@ -69,7 +74,7 @@ function [time,obj,Vsol,Ksol,fsol] = SolveCovarianceSteering_ConeConstraints_RUB
     fsol = value(f);
 end
 
-function Constraints = chanceConstraints(Constraints,EX,S,IplusBK,V,K,f,PS)
+function Constraints = chanceConstraints(Constraints,EX,S,IplusBK,V,K,f,PS, dynamicsSelectFlag)
     % Control constraint parameters
     a_u = PS.alphau;
     b_u = PS.betau;
@@ -89,34 +94,80 @@ function Constraints = chanceConstraints(Constraints,EX,S,IplusBK,V,K,f,PS)
     d = PS.d;    
     deltax = PS.deltax;    
     
-    % % % Control chance constraints % % %
-    
-    for k = 0:N-1
-        Fk = [zeros(nu,k*nu) eye(nu) zeros(nu,(N-k-1)*nu)];
-        for i = 1:Nc
-            ICDFu = norminv(1-deltau(i,k+1));
-            controlConstraint = a_u(:,i)' * Fk * V + ICDFu * norm(S' * K' * Fk' * a_u(:,i)) <= b_u(i);
-            Constraints = [Constraints,controlConstraint];
+    % Control chance constraints for spacecraft dynamics alone
+    if(dynamicsSelectFlag == 1)
+        for k = 0:N-1
+            Fk = [zeros(nu,k*nu) eye(nu) zeros(nu,(N-k-1)*nu)];
+            for i = 1:Nc
+                ICDFu = norminv(1-deltau(i,k+1));
+                controlConstraint = a_u(:,i)' * Fk * V + ICDFu * norm(S' * K' * Fk' * a_u(:,i)) <= b_u(i);
+                Constraints = [Constraints,controlConstraint];
+            end
         end
     end
     
-    % % % State chance constraints % % %
-    
+    % State chance constraints
     for k = 1 : N
-        
         Ek   = [zeros(nx,k*nx) eye(nx) zeros(nx,(N-k)*nx)];
         eps1 = (2 - beta * deltax(k)) / 2;
         eps2 = (2 - beta * deltax(k)) / 2;
-        
-        for i = 1 : nx
-            
+        for i = 1:nx
             stateConstraint1 = A(i,:) * Ek * EX + norm(S' * IplusBK' * Ek' * A(i,:)') * norminv(eps1) <= f(i,k) - b(i);
             stateConstraint2 = -A(i,:) * Ek * EX + norm(S' * IplusBK' * Ek' * A(i,:)') * norminv(eps2) <= f(i,k) + b(i);
             stateConstraints = [stateConstraint1,stateConstraint2];
             Constraints = [Constraints,stateConstraints];
-            
         end
-        
+        fk = f(:,k);
+        Constraints = [Constraints, norm(fk) <= c' * Ek * EX + d];
+    end
+
+end
+
+function Constraints = DRRiskConstraints(Constraints,EX,S,IplusBK,V,K,f,PS, dynamicsSelectFlag)
+    % Control constraint parameters
+    a_u = PS.alphau;
+    b_u = PS.betau;
+    Nc = PS.Nc;
+    N = PS.N;
+    deltau = PS.deltau;
+    
+    % System dimensions
+    nx = PS.nx;
+    nu = PS.nu;
+    
+    % State constraint parameters
+    beta = PS.beta;
+    A = PS.A_cone;
+    b = PS.b;
+    c = PS.c;
+    d = PS.d;    
+    deltax = PS.deltax;    
+    
+    % Control chance constraints for spacecraft dynamics alone
+    if(dynamicsSelectFlag == 1)
+        for k = 0:N-1
+            Fk = [zeros(nu,k*nu) eye(nu) zeros(nu,(N-k-1)*nu)];
+            for i = 1:Nc
+                ICDFu = sqrt((1 - deltau(i,k+1))/(deltau(i,k+1)));
+                controlConstraint = a_u(:,i)' * Fk * V + ICDFu * norm(S' * K' * Fk' * a_u(:,i)) <= b_u(i);
+                Constraints = [Constraints,controlConstraint];
+            end
+        end
+    end
+    
+    % State chance constraints
+    for k = 1 : N
+        Ek   = [zeros(nx,k*nx) eye(nx) zeros(nx,(N-k)*nx)];
+        eps1 = (2 - beta * deltax(k)) / 2;
+        eps2 = (2 - beta * deltax(k)) / 2;
+        DR_eps1 = sqrt((eps1)/(1-eps1));
+        DR_eps2 = sqrt((eps2)/(1-eps2));
+        for i = 1:nx
+            stateConstraint1 = A(i,:) * Ek * EX + norm(S' * IplusBK' * Ek' * A(i,:)') * DR_eps1 <= f(i,k) - b(i);
+            stateConstraint2 = -A(i,:) * Ek * EX + norm(S' * IplusBK' * Ek' * A(i,:)') * DR_eps2 <= f(i,k) + b(i);
+            stateConstraints = [stateConstraint1,stateConstraint2];
+            Constraints = [Constraints,stateConstraints];
+        end
         fk = f(:,k);
         Constraints = [Constraints, norm(fk) <= c' * Ek * EX + d];
     end

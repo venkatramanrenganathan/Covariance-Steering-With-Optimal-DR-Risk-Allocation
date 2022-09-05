@@ -39,6 +39,10 @@ function PS = loadProblemSetupDoubleIntegrator(N)
     PS.umax = 30; % Newtons
     PS.betau = PS.umax * ones(PS.Nc,1);
     PS.Deltau = failProb; % 0.20; 
+    
+    % Two sided chance constraint parameter
+    PS.beta = 1/size(PS.mu0, 1);
+    
     % Initialize with uniform risk allocation
     PS = assignRisk(PS);
     % Objective function  

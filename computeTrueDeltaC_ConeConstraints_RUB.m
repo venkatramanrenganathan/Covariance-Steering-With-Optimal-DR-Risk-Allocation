@@ -1,4 +1,4 @@
-function deltaTrue = computeTrueDeltaC_ConeConstraints_RUB(PS,V,K,f)    
+function deltaTrue = computeTrueDeltaC_ConeConstraints_RUB(PS,V,K,f, riskSelectFlag)    
 % System parameters
 ScriptA = PS.ScriptA;
 ScriptB = PS.ScriptB;
@@ -29,10 +29,16 @@ for k = 1:N
     for i = 1:nx
         normterm1 = (f(i,k) - b(i) - A(i,:) * Ek * EX) / norm(S' * IplusBK' * Ek' * A(i,:)');
         normterm2 = (f(i,k) + b(i) + A(i,:) * Ek * EX) / norm(S' * IplusBK' * Ek' * A(i,:)');
-        deltaTrue1 = (2 / beta) * (1 - normcdf(normterm1));
-        deltaTrue2 = (2 / beta) * (1 - normcdf(normterm2));
-        deltaTruei = [deltaTrue1; deltaTrue2];
-        deltaTrue(:,i,k) = deltaTruei;
+        if(riskSelectFlag == 1)
+            % Gaussian case
+            deltaTrue1 = (2 / beta) * (1 - normcdf(normterm1));
+            deltaTrue2 = (2 / beta) * (1 - normcdf(normterm2));
+        elseif(riskSelectFlag == 2)
+            % DR case
+            deltaTrue1 = (2 / beta) * 1/(1 + normterm1^(2)); 
+            deltaTrue2 = (2 / beta) * 1/(1 + normterm2^(2));
+        end
+        deltaTrue(:,i,k) = [deltaTrue1; deltaTrue2];
     end
 end
 

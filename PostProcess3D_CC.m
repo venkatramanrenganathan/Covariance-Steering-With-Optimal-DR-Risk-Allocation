@@ -5,21 +5,14 @@
     
     h = 200;
     r = h * tand(PS.coneAngle);
-    
     Np = 1000;
-    %PS.psi = -40;
     
     u = linspace(0,h,Np) ;
     th = linspace(0,2*pi,Np) ;
     
-    [U,Th] = meshgrid(u,th) ;
-    %X = PS.gamma * U .* cos(Th) ;
+    [U,Th] = meshgrid(u,th);
     X = ((h - U) / h) .* r .* cos(Th);
-    %Y = R - scale * PS.d * ones(1000);
-    %Y = U - PS.d * ones(1000);
-    %Y = U - PS.d * ones(1000);
     Y = -U + h - PS.d;
-    %Z = PS.gamma * U .* sin(Th) ;
     Z = ((h - U) / h) .* r .* sin(Th);
     
     Rx = [cosd(PS.psi) sind(PS.psi);
@@ -144,12 +137,6 @@
         xlabel('Time (s)','FontSize',13);
         ylabel('$x$ (m)','Interpreter','latex','FontSize',13);
         set(gca,'FontSize',11);
-        
-%         subplot(3,2,2); hold on; grid on;
-%         plot(timeVec_x,stdhist(1,:),'-k','LineWidth',2);
-%         xlabel('Time (s)','FontSize',13);
-%         ylabel('$\sigma_x$ (m)', 'Interpreter','latex','FontSize',13);
-%         set(gca,'FontSize',11);
 
         subplot(3,2,3); hold on; grid on;
         for mc = 1:MCnum
@@ -161,12 +148,6 @@
         xlabel('Time (s)','FontSize',13);
         ylabel('$y$ (m)','Interpreter','latex','FontSize',13);
         set(gca,'FontSize',11);
-        
-%         subplot(3,2,4); hold on; grid on;
-%         plot(timeVec_x,stdhist(2,:),'-k','LineWidth',2);
-%         xlabel('Time (s)','FontSize',13);
-%         ylabel('$\sigma_y$ (m)', 'Interpreter','latex','FontSize',13);
-%         set(gca,'FontSize',11);
 
         subplot(3,2,5); hold on; grid on;
         for mc = 1:MCnum
@@ -179,12 +160,6 @@
         ylabel('$z$ (m)','Interpreter','latex','FontSize',13);
         set(gca,'FontSize',11);
         
-%         subplot(3,2,6); hold on; grid on;
-%         plot(timeVec_x,stdhist(3,:),'-k','LineWidth',2);
-%         xlabel('Time (s)','FontSize',13);
-%         ylabel('$\sigma_z$ (m)', 'Interpreter','latex','FontSize',13);
-%         set(gca,'FontSize',11);
-
         %% Plot optimal controls
         timeStepVec_u = 0:N-1;
         timeVec_u = PS.dt .* timeStepVec_u;

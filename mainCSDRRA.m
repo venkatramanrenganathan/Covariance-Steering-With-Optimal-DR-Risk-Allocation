@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This file solves the covariance-steering problem using iterative risk 
-% allocation with distributionally robust state risk constraints. 
+% allocation with distributionally robust polytopic state risk constraints. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % (C) Venkatraman Renganathan, Automatic Control LTH, Lund University 2022,
 % (C) Joshua Pilipovsky, DCSL, Georgia Tech 2022,

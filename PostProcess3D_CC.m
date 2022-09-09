@@ -1,7 +1,7 @@
  function PostProcess3D_CC(fignum,MCnum,V,K,PS,bool)
     warning('off','all')
     %% Plot Conical State Space
-    figure(1); 
+    figure(fignum); 
     
     h = 200;
     r = h * tand(PS.coneAngle);

@@ -27,7 +27,7 @@ function PS = loadProblemSetup3D_CC(N)
     PS = defineDynamics(PS, dt);
     
     % Cone state chance constraints
-    PS.Deltax = 0.03; % 0.03; % JOINT probability of failure 
+    PS.Deltax = 0.05; % 0.03; % JOINT probability of failure 
     
     % Cone parametrization: || A * x + b || <= c'*xk + d    
     psi          = -atand(3/4);

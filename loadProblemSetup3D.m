@@ -1,17 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This function returns the problem setup (PS) given the length of the
 % horizon N.
-% (c) 2020 Joshua Pilipovsky, DCSL
+% (c) 2022 Joshua Pilipovsky, DCSL, Georgia Tech
+% (c) 2022 Venkatraman Renganathan, Automatic Control LTH, Lund University.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function PS = loadProblemSetup3D(N)
     PS.N = N;
     % Initial condition 
     PS.mu0 = [90; -120; 90; 0; 0; 0]; % [30; -40; 20; 0; 0; 0];
-    PS.Sigma0 = 10*blkdiag(1,1,1,0.1,0.1,0.1); %0.1*blkdiag(10,10,10,1,1,1);
+    PS.Sigma0 = 0.01*blkdiag(10,10,10,1,1,1);    
     % Terminal Condition
     PS.muf = [0;0;0;0;0;0];
-    PS.Sigmaf = 0.25*PS.Sigma0; % PS.Sigma0;
+    PS.Sigmaf = 0.5*PS.Sigma0; % PS.Sigma0;
     % Linear System
     dt = 4; 
     PS.dt = dt;
@@ -22,10 +23,9 @@ function PS = loadProblemSetup3D(N)
                   0 1 1 0 0 0;
                   1 1 0 0 0 0;
                   0 1 -1 0 0 0]';
-    PS.alphax = PS.alphax;
     PS.stateCC_offset = 6; % 6; % meters
     PS.betax = PS.stateCC_offset * ones(4,1);
-    failProb = 0.15; % 0.05
+    failProb = 0.05; % 0.05
     PS.Deltax = failProb; % 0.03; % JOINT probability of failure 
     % Control Chance Constraints
     PS.Nc = 6;
@@ -37,7 +37,7 @@ function PS = loadProblemSetup3D(N)
                  0 0 -1]';
     PS.umax = 30; % Newtons
     PS.betau = PS.umax * ones(PS.Nc,1);
-    PS.Deltau = failProb; % 0.20
+    PS.Deltau = failProb;
     % Initialize with uniform risk allocation
     PS = assignRisk(PS);
     % Objective function  

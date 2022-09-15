@@ -28,6 +28,11 @@ function PostProcess3D(fignum,MCnum,V,K,PS,bool)
     ylabel('$y$ (m)','Interpreter','latex','FontSize',15); 
     zlabel('$z$ (m)','Interpreter','latex','FontSize',15);
     alpha(0.3);
+    a = findobj(gcf, 'type', 'axes');
+    h = findobj(gcf, 'type', 'line');
+    set(h, 'linewidth', 2);
+    set(a, 'linewidth', 2);
+    set(a, 'FontSize', 40);
 
     %% Plot optimal trajectories and covariance ellipsoids
     grey    = [0.7 0.7 0.7];
@@ -198,6 +203,11 @@ function PostProcess3D(fignum,MCnum,V,K,PS,bool)
             plot(timeVec_u,-ones(1,N)*PS.umax,'--k','LineWidth',1);
             set(gca,'FontSize',11);
             ylim([-(PS.umax+PS.umax/4),PS.umax+PS.umax/4]);
+            a = findobj(gcf, 'type', 'axes');
+            h = findobj(gcf, 'type', 'line');
+            set(h, 'linewidth', 2);
+            set(a, 'linewidth', 2);
+            set(a, 'FontSize', 40);
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         

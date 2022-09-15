@@ -37,6 +37,11 @@ function PostProcess(fignum,MCnum,V,K,PS)
        
        figure(fignum); hold on;
        plot(x_MC(1,:),x_MC(2,:),'color',grey); 
+       a = findobj(gcf, 'type', 'axes');
+       h = findobj(gcf, 'type', 'line');
+       set(h, 'linewidth', 2);
+       set(a, 'linewidth', 2);
+       set(a, 'FontSize', 40);
        hold off;
     end
     nominal = value(EX);
@@ -79,5 +84,10 @@ function PostProcess(fignum,MCnum,V,K,PS)
     grid on;
     xlabel('$x$ (m)','Interpreter','latex','FontSize',15);
     ylabel('$y$ (m)','Interpreter','latex','FontSize',15);
+    a = findobj(gcf, 'type', 'axes');
+    h = findobj(gcf, 'type', 'line');
+    set(h, 'linewidth', 2);
+    set(a, 'linewidth', 2);
+    set(a, 'FontSize', 40);
     hold off;
 end

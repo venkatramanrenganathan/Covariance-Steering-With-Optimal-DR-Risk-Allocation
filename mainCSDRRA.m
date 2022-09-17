@@ -95,13 +95,10 @@ set(a, 'FontSize', 40);
 if (dynamicsSelectFlag == 1)
     figNum = figNum + 1;
     PostProcess(figNum,100,Vstar,Kstar,PS);
-
     figNum = figNum + 1;
     PostProcess3D(figNum,100,Vstar,Kstar,PS,1);
-
     figNum = figNum + 3; % Because PostProcess3D produces 3 figures
     PostProcess3D(7,100,Vstar,Kstar,PS,0);
-    
 elseif (dynamicsSelectFlag == 2)
     figNum = figNum + 1;
     PostProcessDoubleIntegrator(figNum,100,Vstar,Kstar,PS);

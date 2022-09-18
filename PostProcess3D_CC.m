@@ -29,6 +29,14 @@
     set(hSurface,'FaceColor',[0 0 1], ...
       'FaceAlpha',0.5,'FaceLighting','gouraud','EdgeColor','none');
     hold on;
+    xlabel('$x$ (m)','Interpreter','latex','FontSize',15); 
+    ylabel('$y$ (m)','Interpreter','latex','FontSize',15); 
+    zlabel('$z$ (m)','Interpreter','latex','FontSize',15);
+    a = findobj(gcf, 'type', 'axes');
+    h = findobj(gcf, 'type', 'line');
+    set(h, 'linewidth', 2);
+    set(a, 'linewidth', 2);
+    set(a, 'FontSize', 40);
   
     %% Plot optimal trajectories and covariance ellipsoids
     % Color for plotting
@@ -191,6 +199,11 @@
             plot(timeVec_u,-ones(1,N)*PS.umax,'--k','LineWidth',1);
             set(gca,'FontSize',11);
             %ylim([-(PS.umax+PS.umax/4),PS.umax+PS.umax/4]);
+            a = findobj(gcf, 'type', 'axes');
+            h = findobj(gcf, 'type', 'line');
+            set(h, 'linewidth', 2);
+            set(a, 'linewidth', 2);
+            set(a, 'FontSize', 40);
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         

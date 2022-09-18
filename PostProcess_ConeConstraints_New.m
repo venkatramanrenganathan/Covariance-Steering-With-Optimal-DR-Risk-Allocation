@@ -18,8 +18,7 @@ function PostProcess_ConeConstraints_New(fignum,MCnum,V,K,PS)
     x_mroot = -sqrt(f1_psi .* y.^2 + f2_psi .* y + d^2);
     
     plot(x_proot,y,'k','LineWidth',2);
-    plot(x_mroot,y,'k','LineWidth',2);
-    
+    plot(x_mroot,y,'k','LineWidth',2);    
     ylim([-20 160]);
     
     % System parameters

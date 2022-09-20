@@ -8,7 +8,7 @@ This repository contains the MATLAB code for simulating covariance steering for 
 
 # Procedure to run the code
 1. To just run covariance steering with polytopic distributionally robust state risk constraints, run the matlab code `mainDRCS.m` which will load the required system data and generate the desired plots.
-2. To run covariance steering with iterative risk allocation for polytopic distributionally robust state risk constraints, run the matlab code `mainDRCS.m` which will load the required system data and generate the desired plots.
+2. To run covariance steering with iterative risk allocation for polytopic distributionally robust state risk constraints, run the matlab code `mainCS_DRCC.m` which will load the required system data and generate the desired plots.
 3. For conic state risk constraints, run the matlab code `mainDRCS_CC.m` which will load the required system data and generate the desired plots.
 
 ## Variations while running `mainDRCS.m` and `mainDRCS_CC.m` files

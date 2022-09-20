@@ -24,7 +24,7 @@ This repository contains the MATLAB code for simulating covariance steering for 
 
 # Funding Acknowledgement
 1. V. Renganathan's work has been supported by the *European Research Council (ERC)* under the European Union’s Horizon 2020 research and innovation program under grant agreement No `834142 - Scalable Control`.
-2. The work of the J. Pilipovsky and P. Tsoitras has been supported by NASA University Leadership Initiative award 80NSSC20M0163 and ONR award N00014-18-1-2828
+2. The work of the J. Pilipovsky and P. Tsoitras has been supported by `NASA University Leadership Initiative award 80NSSC20M0163` and `ONR award N00014-18-1-2828`.
 
 # Affiliation
 1. [Department of Automatic Control, Lund University, Sweden](https://control.lth.se)

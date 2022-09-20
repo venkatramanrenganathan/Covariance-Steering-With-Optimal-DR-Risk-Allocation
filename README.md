@@ -17,13 +17,14 @@ This repository contains the MATLAB code for simulating covariance steering for 
     * Set `dynamicsSelectFlag = 1` in line `14` for running simulations with 3D spacecraft dynamics
     * Set `dynamicsSelectFlag = 2` in line `14` for running simulations with Double Integrator dynamics
 
-# Funding Acknowledgement
-This project has received funding from the *European Research Council (ERC)* under the European Union’s Horizon 2020 research and innovation program under grant agreement No `834142 - Scalable Control`.
-
 # Contributing Authors
 1. [Venkatraman Renganathan - Lund University](https://github.com/venkatramanrenganathan)
 2. [Joshua Pilipovsky - Georgia Institute of Technology](https://github.com/JoshPilipovsky)
 3. [Panagiotis Tsoitras - Georgia Institute of Technology](https://dcsl.gatech.edu/tsiotras.html)
+
+# Funding Acknowledgement
+1. This project has received funding from the *European Research Council (ERC)* under the European Union’s Horizon 2020 research and innovation program under grant agreement No `834142 - Scalable Control`.
+2. The work of the J. Pilipovsky and P. Tsoitras has been supported by NASA University Leadership Initiative award 80NSSC20M0163 and ONR award N00014-18-1-2828
 
 # Affiliation
 1. [Department of Automatic Control, Lund University, Sweden](https://control.lth.se)

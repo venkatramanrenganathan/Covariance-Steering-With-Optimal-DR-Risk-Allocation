@@ -21,9 +21,9 @@ This repository contains the MATLAB code for simulating covariance steering for 
 This project has received funding from the *European Research Council (ERC)* under the European Union’s Horizon 2020 research and innovation program under grant agreement No `834142 - Scalable Control`.
 
 # Contributing Authors
-1. [Dr. Venkatraman Renganathan - Lund University](https://github.com/venkatramanrenganathan)
+1. [Venkatraman Renganathan - Lund University](https://github.com/venkatramanrenganathan)
 2. [Joshua Pilipovsky - Georgia Institute of Technology](https://github.com/JoshPilipovsky)
-3. [Dr. Panagiotis Tsoitras - Georgia Institute of Technology](https://dcsl.gatech.edu/tsiotras.html)
+3. [Panagiotis Tsoitras - Georgia Institute of Technology](https://dcsl.gatech.edu/tsiotras.html)
 
 # Affiliation
 1. [Department of Automatic Control, Lund University, Sweden](https://control.lth.se)

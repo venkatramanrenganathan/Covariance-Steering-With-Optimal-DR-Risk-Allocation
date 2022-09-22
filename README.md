@@ -1,7 +1,7 @@
 # Covariance Steering With Optimal Distributionally Robust (DR) Risk Allocation 
 This repository contains the MATLAB code for simulating covariance steering for stochastic linear systems using optimal and distributionally robust risk allocation.
 
-![covariance_steering](https://github.com/venkatramanrenganathan/Attack-Resiliency-In-Truck-Platooning-Using-Two-Team-Games/blob/master/truck_platoon.gif)
+![covariance_steering](https://github.com/venkatramanrenganathan/Covariance-Steering-With-Optimal-DR-Risk-Allocation/blob/main/Figures/polyspaceDRIRA2Dtraj.png)
 
 # Dependencies
 - Matlab

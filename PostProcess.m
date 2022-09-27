@@ -19,7 +19,8 @@ function PostProcess(fignum,MCnum,V,K,PS)
     
     rng(0);
     for mc = 1:MCnum
-       x0_MC = PS.mu0 + sqrtm(PS.Sigma0)*randn(nx,1);
+       x0_MC = mvlaprnd(nx,PS.mu0,PS.Sigma0,1);  
+       %x0_MC = PS.mu0 + sqrtm(PS.Sigma0)*randn(nx,1);
        U = zeros(nu,N);
        x_MC = zeros(nx,N+1);
        y_MC = zeros(nx,N+1);

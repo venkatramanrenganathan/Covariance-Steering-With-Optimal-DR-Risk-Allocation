@@ -70,6 +70,7 @@
     U = zeros(nu,N,MCnum);
     xhist = zeros(nx,N+1,MCnum);
     for mc = 1:MCnum
+       x0_MC = mvlaprnd(nx,mu0,Sigma0,1);  
        x0_MC = mu0 + sqrtm(Sigma0) * randn(nx,1);
        x_MC = zeros(nx,N+1);
        y_MC = zeros(nx,N+1);

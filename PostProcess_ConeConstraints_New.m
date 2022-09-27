@@ -46,8 +46,10 @@ function PostProcess_ConeConstraints_New(fignum,MCnum,V,K,PS)
     
     % Run Monte Carlo's to generate optimal trajectories
     for mc = 1:MCnum
-       % Generate initial condition from normal distribution
-       x0_MC = mu0 + sqrtm(Sigma0) * randn(nx,1);
+       % Generate initial state from normal distribution
+       % x0_MC = mu0 + sqrtm(Sigma0) * randn(nx,1);
+       % Generate initial state from multivariate Laplacian distribution
+       x0_MC = mvlaprnd(nx,mu0,Sigma0,1); 
        
        % Initiate variable histories
        U = zeros(nu,N); % optimal control history

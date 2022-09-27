@@ -20,7 +20,8 @@ function PostProcessDoubleIntegrator(fignum,MCnum,V,K,PS)
     
     rng(0);
     for mc = 1:MCnum
-       x0_MC = PS.mu0 + sqrtm(PS.Sigma0)*randn(nx,1);
+       x0_MC = mvlaprnd(nx,PS.mu0,PS.Sigma0,1); 
+       %x0_MC = PS.mu0 + sqrtm(PS.Sigma0)*randn(nx,1);
        U = zeros(nu,N);
        x_MC = zeros(nx,N+1);
        y_MC = zeros(nx,N+1);
@@ -75,11 +76,13 @@ function PostProcessDoubleIntegrator(fignum,MCnum,V,K,PS)
         end
     end
     
-    xl = linspace(-20,0);
-    plot(xl, 0.2*(-xl + PS.stateCC_offset), '-b','LineWidth',1);
-    plot(xl, 0.2*(xl + PS.stateCC_offset), '-b','LineWidth',1);
-    ineqplot('y > -0.2*x-0.2',[-20 10 -10 10],darkgrey);
-    ineqplot('y < -0.2*x+0.2',[-20 10 -10 10],darkgrey);
+    xl = linspace(-20,0.4);
+    %plot(xl, 0.2*(-xl + PS.stateCC_offset), '-b','LineWidth',1);
+    %plot(xl, 0.2*(xl + PS.stateCC_offset), '-b','LineWidth',1);
+    plot(xl, 0.2*(-xl + 1), '-b','LineWidth',1);
+    plot(xl, 0.2*(xl - 1), '-b','LineWidth',1);
+    %ineqplot('y > 0.2*x-0.2',[-20 10 -10 10],darkgrey);
+    %ineqplot('y < -0.2*x+0.2',[-20 10 -10 10],darkgrey);
     xlabel('$x$ (m)','Interpreter','latex','FontSize',15);
     ylabel('$y$ (m)','Interpreter','latex','FontSize',15);
     grid on;
@@ -88,5 +91,7 @@ function PostProcessDoubleIntegrator(fignum,MCnum,V,K,PS)
     set(h, 'linewidth', 4);
     set(a, 'linewidth', 4);
     set(a, 'FontSize', 40);
+    xlim([-20, 5]);
+    ylim([-4, 4]);
     hold off;
 end

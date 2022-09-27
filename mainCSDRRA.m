@@ -10,8 +10,8 @@
 close all; clear all; clc;
 
 % Select the required flags
-riskSelectFlag = 2; % 1 for Gaussian chance constraint, 2 for DR Risk Constraint
-dynamicsSelectFlag = 1; % 1 for 3D spacecraft, 2 for Double Integrator 
+riskSelectFlag = 1; % 1 for Gaussian chance constraint, 2 for DR Risk Constraint
+dynamicsSelectFlag = 2; % 1 for 3D spacecraft, 2 for Double Integrator 
 
 % Set Horizon and load the data
 if (dynamicsSelectFlag == 1)
@@ -92,14 +92,15 @@ set(a, 'linewidth', 4);
 set(a, 'FontSize', 40);
 
 % Perform Monte-Carlo in Post Processing
+numMonteTrials = 500;
 if (dynamicsSelectFlag == 1)
     figNum = figNum + 1;
-    PostProcess(figNum,100,Vstar,Kstar,PS);
+    PostProcess(figNum,numMonteTrials,Vstar,Kstar,PS);
     figNum = figNum + 1;
-    PostProcess3D(figNum,100,Vstar,Kstar,PS,1);
+    PostProcess3D(figNum,numMonteTrials,Vstar,Kstar,PS,1);
     figNum = figNum + 3; % Because PostProcess3D produces 3 figures
-    PostProcess3D(7,100,Vstar,Kstar,PS,0);
+    PostProcess3D(7,numMonteTrials,Vstar,Kstar,PS,0);
 elseif (dynamicsSelectFlag == 2)
     figNum = figNum + 1;
-    PostProcessDoubleIntegrator(figNum,100,Vstar,Kstar,PS);
+    PostProcessDoubleIntegrator(figNum,numMonteTrials,Vstar,Kstar,PS);
 end

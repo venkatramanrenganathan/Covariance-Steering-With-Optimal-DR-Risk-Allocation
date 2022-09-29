@@ -14,6 +14,7 @@ function PostProcess(fignum,MCnum,V,K,PS)
     
     grey = [0.8 0.8 0.8];
     darkgrey = [0.6 0.6 0.6];
+    orange = [0.850 0.325 0.098];
     
     EX = PS.ScriptA*PS.mu0 + PS.ScriptB*V;
     
@@ -42,7 +43,7 @@ function PostProcess(fignum,MCnum,V,K,PS)
        h = findobj(gcf, 'type', 'line');
        set(h, 'linewidth', 2);
        set(a, 'linewidth', 2);
-       set(a, 'FontSize', 40);
+       set(a, 'FontSize', 60);
        hold off;
     end
     nominal = value(EX);
@@ -76,12 +77,12 @@ function PostProcess(fignum,MCnum,V,K,PS)
 %             set(h,'LineWidth',1);
     end
     
-    xl = linspace(-20,0);
-    xr = linspace(0,140);
+    xl = linspace(-10,0);
+    xr = linspace(0,120);
     plot(xr, -xr + PS.stateCC_offset, '--k','LineWidth',1);
     plot(xl, xl + PS.stateCC_offset, '--k','LineWidth',1);
-    ineqplot('y > -x+5',[-20 140 -140 10],darkgrey);
-    ineqplot('y > x+5',[-20 140 -140 10],darkgrey);
+    ineqplot('y > -x+5',[-10 120 -130 10],darkgrey);
+    ineqplot('y > x+5',[-10 120 -130 10],darkgrey);
     grid on;
     xlabel('$x$ (m)','Interpreter','latex','FontSize',15);
     ylabel('$y$ (m)','Interpreter','latex','FontSize',15);
@@ -89,6 +90,6 @@ function PostProcess(fignum,MCnum,V,K,PS)
     h = findobj(gcf, 'type', 'line');
     set(h, 'linewidth', 2);
     set(a, 'linewidth', 2);
-    set(a, 'FontSize', 40);
+    set(a, 'FontSize', 60);
     hold off;
 end

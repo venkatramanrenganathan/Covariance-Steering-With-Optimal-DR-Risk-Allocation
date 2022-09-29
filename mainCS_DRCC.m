@@ -34,15 +34,16 @@ fignum = 1;
 figure(fignum);
 grid on;
 plot(JstarVec,'.--k','MarkerSize',15);
+xlim([0 niter]);
 xlabel('Iteration Number','FontSize',12);
 ylabel('Optimal Cost','FontSize',12);
 a = findobj(gcf, 'type', 'axes');
 h = findobj(gcf, 'type', 'line');
-set(h, 'linewidth', 4);
-set(a, 'linewidth', 4);
-set(a, 'FontSize', 40);
+set(h, 'linewidth', 6);
+set(a, 'linewidth', 6);
+set(a, 'FontSize', 60);
 
-% Plot The Post Processed Results
+%%  Plot The Post Processed Results
 deltax_RUB_IRA = PS.deltax';
 deltaTrue_RUB_IRA = computeTrueDeltaC_ConeConstraints_RUB(PS,Vstar,Kstar,fstar, riskSelectFlag);  
 deltaTrue_RUB_IRA_max = max(max(deltaTrue_RUB_IRA));
@@ -57,15 +58,15 @@ a = findobj(gcf, 'type', 'axes');
 h = findobj(gcf, 'type', 'line');
 set(h, 'linewidth', 4);
 set(a, 'linewidth', 4);
-set(a, 'FontSize', 40);
+set(a, 'FontSize', 60);
 hold off;
 
-% Perform Monte-Carlo in Post Processing
+%% Perform Monte-Carlo in Post Processing
 if (dynamicsSelectFlag == 1)
     fignum = fignum + 1;
-    PostProcess_ConeConstraints_New(fignum,100,Vstar,Kstar,PS)
+    PostProcess_ConeConstraints_New(fignum,500,Vstar,Kstar,PS)
     fignum = fignum + 1;
-    PostProcess3D_CC(fignum,100,Vstar,Kstar,PS,1);
+    PostProcess3D_CC(fignum,500,Vstar,Kstar,PS,1);
 elseif(dynamicsSelectFlag == 2)
     fignum = fignum + 1;
     PostProcessDoubleIntegrator(fignum,100,Vstar,Kstar,PS);

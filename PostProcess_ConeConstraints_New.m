@@ -84,7 +84,7 @@ function PostProcess_ConeConstraints_New(fignum,MCnum,V,K,PS)
        h = findobj(gcf, 'type', 'line');
        set(h, 'linewidth', 4);
        set(a, 'linewidth', 4);
-       set(a, 'FontSize', 40);
+       set(a, 'FontSize', 60);
     end
     
     % Set confidence on covariance ellipses
@@ -127,6 +127,6 @@ function PostProcess_ConeConstraints_New(fignum,MCnum,V,K,PS)
     h = findobj(gcf, 'type', 'line');
     set(h, 'linewidth', 4);
     set(a, 'linewidth', 4);
-    set(a, 'FontSize', 40);
+    set(a, 'FontSize', 60);
     
 end

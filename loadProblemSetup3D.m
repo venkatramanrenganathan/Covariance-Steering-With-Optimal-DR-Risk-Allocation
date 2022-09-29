@@ -8,7 +8,8 @@
 function PS = loadProblemSetup3D(N)
     PS.N = N;
     % Initial condition 
-    PS.mu0 = [90; -120; 90; 0; 0; 0]; % [30; -40; 20; 0; 0; 0];
+    % PS.mu0 = [90; -120; 90; 0; 0; 0]; 
+    PS.mu0 = [100; -120; 90; 0; 0; 0]; 
     PS.Sigma0 = 0.01*blkdiag(10,10,10,1,1,1);    
     % Terminal Condition
     PS.muf = [0;0;0;0;0;0];

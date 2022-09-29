@@ -34,13 +34,7 @@ function [PS,Vsol,Ksol,JstarVec,niter] = IterativeRiskAllocation(PS,eps, dynamic
         end
 
         % Check active or inactive constraints
-        [bool,diff] = isActive(Vsol,Ksol,PS, riskSelectFlag);
-
-        % Look at distribution of constraints after initial "uniform" allocation
-        % figure; hold on; grid on;
-        % plot(diff(1,:),'.k','MarkerSize',15);
-        % plot(diff(2,:),'.b','MarkerSize',15);
-        % legend('Lower Constraint','Upper Constraint');
+        [bool,diff] = isActive(Vsol,Ksol,PS, riskSelectFlag);        
 
         Nactive = sum(sum(bool));
         if Nactive == 0 || Nactive == PS.N * PS.Ns

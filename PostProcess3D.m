@@ -32,10 +32,11 @@ function PostProcess3D(fignum,MCnum,V,K,PS,bool)
     h = findobj(gcf, 'type', 'line');
     set(h, 'linewidth', 2);
     set(a, 'linewidth', 2);
-    set(a, 'FontSize', 40);
+    set(a, 'FontSize', 50);
 
     %% Plot optimal trajectories and covariance ellipsoids
     grey    = [0.7 0.7 0.7];
+    orange  = [0.850 0.325 0.098];
     nx      = PS.nx;
     nu      = PS.nu;
     nw      = PS.nw;
@@ -80,7 +81,7 @@ function PostProcess3D(fignum,MCnum,V,K,PS,bool)
        end       
        
        xhist(:, :, mc) = x_MC;
-       plot3(x_MC(1, :), x_MC(2, :), x_MC(3, :), 'color', grey);
+       plot3(x_MC(1, :), x_MC(2, :), x_MC(3, :), 'color', orange);
     end
     
     EX         = ScriptA * mu0 + ScriptB * V;
@@ -207,7 +208,7 @@ function PostProcess3D(fignum,MCnum,V,K,PS,bool)
             h = findobj(gcf, 'type', 'line');
             set(h, 'linewidth', 2);
             set(a, 'linewidth', 2);
-            set(a, 'FontSize', 40);
+            set(a, 'FontSize', 50);
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
